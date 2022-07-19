@@ -24,7 +24,7 @@ airports <- airports %>%
          altitude)
 
 world <- map_data("world") %>%
-  filter(between(long, -35, 50) & between(lat, 20, 70)) %>%
+  filter(between(long, -35, 50) & between(lat, 20, 73)) %>%
   filter(region != "Greenland")
 
 # join data
@@ -40,7 +40,7 @@ flights_mini <- flights %>%
 # plot
 plot <- ggplot(data = flights_mini, aes(x = longitude, y = latitude, size = flt_tot_1)) +
   geom_map(data = world, map = world, fill = "#5797b3", aes(long, lat, map_id = region, size = NULL, alpha = NULL)) +
-  geom_jitter(color = "white", width = .2, height = .2, shape = 16, alpha = .8) +
+  geom_point(color = "white", shape = 16, alpha = .8) +
   scale_size_area(max_size = 3) +
   transition_manual(flt_date) +
   labs(title    = "Flights in Europe",
@@ -50,10 +50,10 @@ plot <- ggplot(data = flights_mini, aes(x = longitude, y = latitude, size = flt_
   scale_y_continuous(expand = c(0,0)) +
   theme_minimal() %+replace% 
       theme(
-        text = element_text(size = 5, family = "Avenir", color = "white", lineheight=.8),
-        plot.title = element_text(size = 5, hjust = 0, lineheight=1),
-        plot.subtitle = element_text(size = 2.9, hjust = 0),
-        plot.caption = element_text(size = 2.9, hjust = 1),
+        text = element_text(size = 11.50, family = "Avenir", color = "white", lineheight=.8),
+        plot.title = element_text(size = 11.50, hjust = 0, lineheight=1),
+        plot.subtitle = element_text(size = 7, hjust = 0),
+        plot.caption = element_text(size = 4.4, hjust = 1),
         legend.position = "none",
         plot.background = element_rect(fill = "#01141c"),
         panel.background = element_rect(fill = "#01141c", color = "#01141c"),
