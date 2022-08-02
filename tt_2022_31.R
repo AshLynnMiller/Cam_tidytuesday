@@ -41,7 +41,7 @@ png('~/Desktop/tt_2022_31.png', units = "in", width = 4, height = 3.4, res = 600
 ggplot(data, aes(x = water, y = p, fill = water)) +
   geom_col(width = .5) +
   # geom_errorbar(aes(ymin = p_lo, ymax = p_hi), width = .25, lwd = 1.1, color = "#ff7a6e") +
-  labs(title = "Percent of Frogs Captured or Visually Detected by Amount of Water",
+  labs(title = "Percent of Frogs Visually Detected by Amount of Water",
        subtitle = "\nTidy Tuesday 2022 - Week 31 | Data Source: USGS | Visualization: @cameronskay\n\n\n\n",
        x = "Amount of Water",
        y = "Percent Captured or Visually Detected") + 
