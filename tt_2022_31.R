@@ -18,6 +18,7 @@ data <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidyt
 
 # clean data
 data <- data %>%
+  filter(detection != "Captured") %>%
   filter(water != "Unknown water") %>%
   select(detection, water) %>%
   mutate(detection = if_else(detection == "No visual", 0, 1)) %>%
