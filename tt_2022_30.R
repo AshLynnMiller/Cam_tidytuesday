@@ -54,10 +54,14 @@ png('~/Desktop/tt_2022_30.png', units = "in", width = 8, height = 3.4, res = 600
 
 ggplot() +
   # plot canada / usa
-  geom_map(data = filter(map_data, region == "USA"), fill = "#000000", map = filter(map_data, region == "USA"), aes(long, lat, map_id = region, size = NULL, alpha = NULL)) +
+  geom_map(data = filter(map_data, region == "USA"), 
+           fill = "#000000", map = filter(map_data, region == "USA"), 
+           aes(long, lat, map_id = region, size = NULL, alpha = NULL)) +
   # geom_map(data = filter(map_data, region != "USA"), fill = "#aaaaaa", map = filter(map_data, region != "USA"), aes(long, lat, map_id = region, size = NULL, alpha = NULL)) +
-  geom_point(data = stations_data, aes(x = longitude, y = latitude, color = fuel_type_code), shape = 16, alpha = .8, size = .05) +
-  facet_wrap(~status_code) +
+  geom_point(data = stations_data, 
+             aes(x = longitude, y = latitude, color = fuel_type_code), 
+             shape = 16, alpha = .8, size = .05) +
+  facet_wrap(~status_code) + #available vs planned vs temp unavailable
   labs(title = "Alternative Fuel Stations",
        subtitle = "\nTidy Tuesday 2022 - Week 30 | Data Source: US DOT | Visualization: @cameronskay\n\n\n\n") + 
   # scale_color_manual(values = c("#d9fdff", "#e5baff", "red")) +
@@ -66,6 +70,7 @@ ggplot() +
   coord_cartesian(
                   xlim = c(-128, -65),
                   ylim = c(24.5, 50)) + 
+  #coloring by fuel type (electric, ethanol, propane, natural gas + compressed, natural gas + liquefied, biodiesel, and hydrogen)
   scale_color_manual(values = c("#4febff",
                                 "#9605f7",
                                 "#ff7b00",
@@ -74,6 +79,7 @@ ggplot() +
                                 "#65f794",
                                 "#2f43f7")) +
     theme_minimal() %+replace% 
+      #Cam's theme
       theme(
         text = element_text(size = 9, family = "Avenir Next Regular", color = "white", lineheight = .5),
         plot.title = element_text(family = "Avenir Next Bold", size = 12, hjust = .5),
