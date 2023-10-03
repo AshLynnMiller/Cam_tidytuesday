@@ -17,7 +17,7 @@ loadfonts(device = "all")
 
 # load data
 karina_data <- import(here::here("data", "HS GD Dist.xlsx"),
-               setclass = "tibble") %>%
+                      setclass = "tibble") %>%
   mutate(ID = as.factor(ID)) %>%
   janitor::clean_names() %>%
   mutate(holly_sign_acc = recode(holly_sign_acc,
@@ -54,9 +54,9 @@ ggplot() +
            aes(long, lat, map_id = region, size = NULL, alpha = NULL)) +
   # geom_map(data = filter(map_data, region != "USA"), fill = "#aaaaaa", map = filter(map_data, region != "USA"), aes(long, lat, map_id = region, size = NULL, alpha = NULL)) +
   geom_point(data = karina_data, 
-             aes(x = longitude, y = latitude, color = holly_sign_acc), 
+             aes(x = longitude, y = latitude, color = statof_lib_acc), 
              shape = 16, alpha = .8, size = 1) +
-  labs(title = "Hollywood Sign") + 
+  labs(title = "Statue of Liberty") + 
   # scale_color_manual(values = c("#d9fdff", "#e5baff", "red")) +
   # scale_x_continuous(expand = c(0,0)) +
   # scale_y_continuous(expand = c(0,0)) +
