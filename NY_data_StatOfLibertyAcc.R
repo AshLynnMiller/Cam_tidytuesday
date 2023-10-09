@@ -67,20 +67,14 @@ NY_data %<>%
 state <- map_data("state")
 NY <- subset(state, region == "new york")
 
-png('~/Desktop/NY_StatueOfLib.png', 
-    units = "in", 
-    width = 6, 
-    height = 4, 
-    res = 600)
 
 ggplot() + 
-  geom_map(data = NY, map = NY, 
+  geom_map(data = NY, map = NY, fill = "white", color = "black",
            aes(long, lat, map_id = region, size = NULL, alpha = NULL)) +
   geom_point(data = NY_data, 
            aes(x = long, y = lat, color = statof_lib_acc), 
            shape = 16, 
-           alpha = .8, 
-           size = 1) +
+           size = 1.25) +
   geom_point(data = statlib_data,
              aes(x = long, y = lat),
              color = "#ffd34e",
@@ -92,11 +86,11 @@ ggplot() +
     xlim = c(-79.77, -71.88),
     ylim = c(40.49, 45.05)) + 
   scale_color_manual(values = c("#ff3370", 
-                                "#5CE5AE")) +
+                                "#3EE09F")) +
   theme_minimal() %+replace% 
   #Cam's theme
   theme(
-    text = element_text(size = 9, family = "Avenir Next Regular", color = "white", lineheight = .5),
+    text = element_text(size = 9, family = "Avenir Next Regular", color = "black", lineheight = .5),
     plot.title = element_text(family = "Avenir Next Bold", size = 13, hjust = .5),
     plot.subtitle = element_text(family = "Avenir Light", size = 8, hjust = .5),
     strip.text       = element_text(family = "Avenir Next Bold", size = 9),
@@ -110,8 +104,8 @@ ggplot() +
     legend.background = element_blank(),
     legend.margin = margin(0, 0, 0, 0),
     legend.box.margin = margin(-10, 0, 0, 0),
-    plot.background = element_rect(fill = "#191e21"),
-    panel.background = element_rect(fill = "#191e21", color = "#191e21"),
+    plot.background = element_rect(fill = "white"),
+    panel.background = element_rect(fill = "white", color = "white"),
     panel.grid      = element_blank(),
     axis.title      = element_blank(),
     axis.text       = element_blank(),
@@ -127,6 +121,6 @@ dev.off()
 
 png('~/Desktop/NY_StatueOfLib_v2.png', 
     units = "in", 
-    width = 6, 
+    width = 7, 
     height = 5, 
     res = 600)

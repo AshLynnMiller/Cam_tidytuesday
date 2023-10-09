@@ -4,7 +4,9 @@ library(rio)
 library(here)
 library(extrafont)
 library(countrycode)
-
+library(usmap)
+library(maps)
+library(mapdata)
 
 # import fonts
 # font_import() # only run once
@@ -16,63 +18,67 @@ fonts()
 loadfonts(device = "all")
 
 # load data
-karina_data <- import(here::here("data", "HS GD Dist.xlsx"),
-                      setclass = "tibble") %>%
+NY_data <- import(here::here("data", "NY data.xlsx"),
+                  setclass = "tibble") %>%
   mutate(ID = as.factor(ID)) %>%
   janitor::clean_names() %>%
   mutate(holly_sign_acc = recode(holly_sign_acc,
                                  "0" = "Correct",
                                  "1" = "Incorrect"))
 
-karina_data %<>%
+NY_data %<>%
   mutate(statof_lib_acc = recode(statof_lib_acc,
                                  "0" = "Correct",
                                  "1" = "Incorrect"))
 
-karina_data %<>%
+NY_data %<>%
   mutate(holly_sign_acc = as.factor(holly_sign_acc),
          statof_lib_acc = as.factor(statof_lib_acc))
 
-karina_data %<>%
+NY_data %<>%
   mutate(holly_sign_acc = factor(holly_sign_acc, levels = c("Incorrect",
                                                             "Correct"))) 
 
-karina_data %<>%
+NY_data %<>%
   mutate(statof_lib_acc = factor(statof_lib_acc, levels = c("Incorrect",
                                                             "Correct"))) 
 
-liberty_data <- import(here::here("data", "StatOfLib data.xlsx"),
-                       setclass = "tibble") %>%
-  mutate(ID = as.factor(ID)) %>%
-  janitor::clean_names()
+# map_data <- map_data("world") %>%
+#   filter(region == "USA") %>%
+#   #filter(subregion == "New York") %>%
+#   #filter(long < -50)
 
+#usa <- map_data("usa")
 
-map_data <- map_data("world") %>%
-  filter(region == "USA") %>%
-  filter(long < -50)
+# p <- ggplot(data=usa, aes(x=long, y=lat, group=group)) + 
+#   geom_polygon(fill='lightblue') + 
+#   theme(axis.title.x=element_blank(), axis.text.x=element_blank(), axis.ticks.x=element_blank(),
+#         axis.title.y=element_blank(), axis.text.y=element_blank(), axis.ticks.y=element_blank()) + 
+#   ggtitle('U.S. Map') + 
+#   coord_fixed(1.3)
+# 
+# show(p) #copies to desktop
 
-ggplot() +
-  # plot canada / usa
-  geom_map(data = map_data, fill = "white", color = "black", map = map_data, 
+state <- map_data("state")
+NY <- subset(state, region == "new york")
+
+ggplot() + 
+  geom_map(data = NY, map = NY, fill = "white", color = "black",
            aes(long, lat, map_id = region, size = NULL, alpha = NULL)) +
-  # geom_map(data = filter(map_data, region != "USA"), fill = "#aaaaaa", map = filter(map_data, region != "USA"), aes(long, lat, map_id = region, size = NULL, alpha = NULL)) +
-  geom_point(data = karina_data, 
-             aes(x = longitude, y = latitude, color = statof_lib_acc), 
-             shape = 16, size = 1.5) +
-  geom_point(data = liberty_data,
-             aes(x = long, y = lat),
-             color = "#ffd34e",
+  geom_point(data = NY_data, 
+             aes(x = long, y = lat, color = holly_sign_acc), 
              shape = 16, 
-             alpha = .8, 
-             size = 1) +
-  labs(title = "Statue of Liberty") + 
-  # scale_color_manual(values = c("#d9fdff", "#e5baff", "red")) +
-  # scale_x_continuous(expand = c(0,0)) +
-  # scale_y_continuous(expand = c(0,0)) +
+             size = 1.25) +
+  # geom_point(data = statlib_data,
+  #            aes(x = long, y = lat),
+  #            color = "#ffd34e",
+  #            shape = 16, 
+  #            alpha = .8, 
+  #            size = 1) +
+  labs(title = "Hollywood Sign") +
   coord_cartesian(
-    xlim = c(-128, -65),
-    ylim = c(24.5, 50)) + 
-  #coloring by fuel type (electric, ethanol, propane, natural gas + compressed, natural gas + liquefied, biodiesel, and hydrogen)
+    xlim = c(-79.77, -71.88),
+    ylim = c(40.49, 45.05)) + 
   scale_color_manual(values = c("#ff3370", 
                                 "#3EE09F")) +
   theme_minimal() %+replace% 
@@ -107,4 +113,8 @@ ggplot() +
 
 dev.off()
 
-png('~/Desktop/LibertyAcc_v3.png', units = "in", width = 7, height = 5, res = 600)
+png('~/Desktop/NY_Hollywood_v2.png', 
+    units = "in", 
+    width = 7, 
+    height = 5, 
+    res = 600)
